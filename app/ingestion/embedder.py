@@ -6,6 +6,7 @@ from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Distance, VectorParams
 from app.core.config import settings
+from app.core.database import get_qdrant_client 
 
 # 1. Setup Embeddings Model 
 def get_embedding_model():
@@ -13,11 +14,6 @@ def get_embedding_model():
     # Ukuran vectornya adalah 384 dimensi
     print("Loading local embedding model...")
     return HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-
-# 2. Setup Qdrant Client
-def get_qdrant_client():
-    client = QdrantClient(path=settings.QDRANT_PATH)
-    return client
 
 # 3. Fungsi Utama
 async def index_document(text: str, filename: str):
