@@ -1,37 +1,28 @@
----
-title: RAG Insight Pipeline
-emoji: 🧠
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-pinned: false
-app_port: 7860
-license: apache-2.0
----
-
 # 🚀 RAG Insight Pipeline
 
-> **A production-ready, end-to-end RAG (Retrieval Augmented Generation) system featuring hybrid vector database storage, automated observability, evaluation pipelines, and CI/CD automation.**
+> **An Enterprise-Grade GenAI Architecture: Scalable RAG Pipeline featuring Hybrid Vector Search, Full-Stack MLOps Observability, and Automated Evaluation Loops.**
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-Production-green.svg)
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)
 ![CI/CD](https://github.com/bestoism/rag-insight-pipeline/actions/workflows/ci.yml/badge.svg)
+![Qdrant](https://img.shields.io/badge/VectorDB-Qdrant-red.svg)
 
 ## 📖 Overview
 
-Unlike simple RAG demos, **RAG Insight Pipeline** is engineered with **MLOps best practices** in mind. It solves real-world challenges such as hallucination monitoring, rigorous evaluation, and deployment scalability.
+**RAG Insight Pipeline** goes beyond standard RAG tutorials by implementing **MLOps best practices** for production environments. It addresses critical challenges in Generative AI such as **hallucination monitoring**, **retrieval accuracy**, and **deployment scalability**.
 
-It allows users to upload PDF documents, automatically indexes them into a vector database, and performs intelligent Q&A using Google's Gemini LLM.
+Engineered to be modular, it allows users to upload complex PDF documents, automatically index them into a hybrid vector store, and perform intelligent Q&A using **Google Gemini 2.0 Flash** with strictly grounded responses.
 
 ### 🌟 Key Features
 
-*   **🏗 Hybrid Vector Database Architecture**: Automatically switches between **Qdrant Local** (for development) and **Qdrant Cloud** (for production) based on environment configuration.
-*   **👁️ Full Observability**: Integrated with **Langfuse** to trace every request, monitor latency, token usage, and debug retrieval steps in real-time.
-*   **📉 Cost-Efficient Embedding**: Uses local **HuggingFace Embeddings** (`all-MiniLM-L6-v2`) running on CPU to avoid API rate limits and costs.
-*   **🤖 Automated Evaluation**: Includes a **RAGAS** pipeline script to grade the bot's "Faithfulness" and "Relevancy" using an LLM-as-a-Judge approach.
-*   **🚀 CI/CD Pipeline**: Automated testing via **GitHub Actions** ensures code quality and dependency integrity on every push.
-*   **🐳 Dockerized Deployment**: Fully containerized and deployed on **Hugging Face Spaces**.
+*   **🏗 Hybrid Vector Database Architecture**: Smart routing that switches between **Qdrant Local** (for fast development) and **Qdrant Cloud** (for scalable production) based on environment context.
+*   **👁️ Full Observability**: Deep integration with **Langfuse** to trace every request chain, monitor latency, track token usage, and debug retrieval steps in real-time.
+*   **📉 Cost-Efficient Embedding**: Utilizes optimized local **HuggingFace Embeddings** (`all-MiniLM-L6-v2`) running on CPU to eliminate embedding API costs and rate limits.
+*   **🤖 Automated Evaluation Pipeline**: Includes a built-in **RAGAS** script to grade the bot's "Faithfulness" and "Relevancy" using an LLM-as-a-Judge approach.
+*   **🖥️ Chat Interface**: Includes a **Streamlit** frontend for an interactive chat experience and easy document management.
+*   **🚀 CI/CD Automation**: Robust **GitHub Actions** workflows that run unit tests and dependency checks on every push.
+*   **🐳 Containerized Deployment**: Fully Dockerized and deployed live on **Hugging Face Spaces**.
 
 ---
 
@@ -39,14 +30,14 @@ It allows users to upload PDF documents, automatically indexes them into a vecto
 
 | Component | Technology | Description |
 | :--- | :--- | :--- |
-| **Backend Framework** | **FastAPI** | High-performance async API. |
-| **LLM Engine** | **Google Gemini 2.0 Flash** | Fast and efficient generation model. |
-| **Embeddings** | **HuggingFace** | `sentence-transformers/all-MiniLM-L6-v2` (Local). |
-| **Vector Database** | **Qdrant** | Hybrid setup (Local Disk / Cloud Cluster). |
-| **Orchestration** | **LangChain** | For chaining retrieval and generation logic. |
-| **Observability** | **Langfuse** | Tracing, monitoring, and debugging. |
-| **Evaluation** | **RAGAS** | Automated metrics calculation. |
-| **Infrastructure** | **Docker & GitHub Actions** | Containerization and CI/CD. |
+| **Backend** | **FastAPI** | High-performance, async-ready API framework. |
+| **Frontend** | **Streamlit** | Interactive UI for chat and file management. |
+| **LLM Engine** | **Google Gemini 2.0 Flash** | SOTA model for fast and accurate generation. |
+| **Vector DB** | **Qdrant** | Hybrid setup (Local Disk / Cloud Cluster). |
+| **Orchestration** | **LangChain** | Advanced chaining for retrieval and generation. |
+| **Observability** | **Langfuse** | End-to-end tracing and monitoring. |
+| **Evaluation** | **RAGAS** | Automated metrics calculation (Faithfulness/Relevancy). |
+| **DevOps** | **Docker & GitHub Actions** | Containerization and Continuous Integration. |
 
 ---
 
@@ -54,14 +45,14 @@ It allows users to upload PDF documents, automatically indexes them into a vecto
 
 ```mermaid
 graph TD
-    User[User / Client] -->|Upload PDF| API[FastAPI Backend]
-    User -->|Query| API
+    User[User / Client] -->|UI Interaction| FE[Streamlit Frontend]
+    FE -->|HTTP Request| API[FastAPI Backend]
     
     subgraph "Ingestion Pipeline"
         API --> Extractor[PDF Extractor]
         Extractor --> Chunker[Text Splitter]
         Chunker --> Embedder[Local HF Embeddings]
-        Embedder -->|Upsert Vectors| Qdrant[(Qdrant DB)]
+        Embedder -->|Upsert Vectors| Qdrant[(Qdrant Hybrid DB)]
     end
     
     subgraph "RAG Pipeline"
@@ -81,8 +72,8 @@ graph TD
 
 ## 🚀 Live Demo
 
-You can access the live Swagger UI here:
-👉 **[Live Demo on Hugging Face Spaces](https://huggingface.co/spaces/bestoism/rag-insight-pipeline/docs)**
+*   **API / Swagger UI**: [View API Docs](https://bestoism-rag-insight-pipeline.hf.space/docs)
+    *(The backend is deployed on Hugging Face Spaces)*
 
 ---
 
@@ -118,8 +109,8 @@ API_V1_STR="/api/v1"
 # LLM Provider (Google Gemini)
 GOOGLE_API_KEY=your_google_api_key
 
-# Vector Database (Leave URL empty for Local Mode)
-# For Production: Fill URL and API KEY from Qdrant Cloud
+# Vector Database (Hybrid Config)
+# Leave URL empty for Local Mode. For Cloud, fill in the details:
 QDRANT_URL=
 QDRANT_API_KEY=
 
@@ -130,79 +121,65 @@ LANGFUSE_HOST=https://cloud.langfuse.com
 ```
 
 ### 5. Run the Application
+You can run the Backend and Frontend separately.
+
+**Option A: Run Backend API**
 ```bash
 uvicorn app.main:app --reload
 ```
-Access the API at `http://localhost:8000/docs`.
+*Access API Docs at `http://localhost:8000/docs`*
+
+**Option B: Run Frontend UI**
+```bash
+streamlit run frontend/app.py
+```
+*Access Chat Interface at `http://localhost:8501`*
 
 ---
 
 ## 📡 API Endpoints
 
 ### 1. Ingest Document
-Uploads a PDF, chunks it, embeds it locally, and stores vectors in Qdrant.
-
+Uploads a PDF, extracts text, chunks it, and indexes vectors.
 *   **URL**: `POST /api/v1/documents/ingest`
-*   **Payload**: `multipart/form-data` (File)
-
-```bash
-curl -X POST "http://localhost:8000/api/v1/documents/ingest" \
-     -H "accept: application/json" \
-     -H "Content-Type: multipart/form-data" \
-     -F "file=@resume.pdf"
-```
 
 ### 2. RAG Query
-Asks a question based on the uploaded documents.
-
+Asks a question based on the indexed knowledge base.
 *   **URL**: `POST /api/v1/rag/query`
-*   **Body**: JSON
-```json
-{
-  "question": "What are the candidate's technical skills?"
-}
-```
+
+### 3. Reset Memory
+Clears the vector database (wipes all memory).
+*   **URL**: `DELETE /api/v1/documents/reset`
 
 ---
 
 ## 🧪 Evaluation & Testing
 
-### Running Unit Tests
-We use `pytest` for unit testing the API health and configuration.
+### Running Unit Tests (CI/CD)
+We use `pytest` to ensure API health and configuration integrity.
 ```bash
 pytest tests/
 ```
 
 ### Running RAGAS Evaluation
-To evaluate the RAG pipeline's accuracy (faithfulness & relevancy) against a set of test questions:
+To evaluate the RAG pipeline's accuracy using an automated Judge:
 ```bash
 python scripts/run_eval.py
 ```
-*Note: This script uses Gemini as a Judge to score the responses.*
 
 ---
 
 ## 🐳 Docker & Deployment
 
-The application is containerized using Docker.
+The application is containerized using Docker and optimized for Hugging Face Spaces (Port 7860).
 
-### Build Locally
 ```bash
+# Build Locally
 docker build -t rag-pipeline .
+
+# Run Container
 docker run -p 7860:7860 --env-file .env rag-pipeline
 ```
-
-### Deploy to Hugging Face Spaces
-This project is configured to deploy automatically to Hugging Face Spaces via Docker SDK.
-1. Create a Space (Docker SDK).
-2. Push the code.
-3. Set the variables in the Space "Settings" tab.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
