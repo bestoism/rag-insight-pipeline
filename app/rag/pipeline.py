@@ -6,12 +6,28 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from app.core.config import settings
-
 from langfuse.langchain import CallbackHandler
+
+# --- FIX: GLOBAL VARIABLE ---
+# Kita simpan koneksi database di sini supaya tidak dibuka-tutup terus
+_qdrant_client_instance = None
+
+def get_qdrant_client_instance():
+    """
+    Singleton pattern: Cek dulu, kalau sudah ada koneksi, pakai yang lama.
+    Kalau belum, baru buat baru.
+    """
+    global _qdrant_client_instance
+    if _qdrant_client_instance is None:
+        _qdrant_client_instance = QdrantClient(path=settings.QDRANT_PATH)
+    return _qdrant_client_instance
 
 def get_retriever():
     embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-    client = QdrantClient(path=settings.QDRANT_PATH)
+    
+    # GUNAKAN SINGLETON CLIENT
+    client = get_qdrant_client_instance()
+    
     vector_store = QdrantVectorStore(
         client=client,
         collection_name=settings.QDRANT_COLLECTION_NAME,
@@ -33,9 +49,6 @@ async def query_rag(question: str):
     retriever = get_retriever()
     llm = get_llm()
     
-    # PERBAIKAN:
-    # Cukup panggil kosong saja. 
-    # Dia otomatis baca .env (LANGFUSE_SECRET_KEY, dll)
     langfuse_handler = CallbackHandler() 
     
     template = """You are a helpful HR Assistant reviewing a CV/Document. 
