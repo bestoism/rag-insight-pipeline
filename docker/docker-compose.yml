@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # 1. Service Database (Qdrant)
+  # Ini akan mendownload image Qdrant asli dan menjalankannya sebagai server lokal
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: rag-qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      # Menyimpan data database agar tidak hilang saat container mati
+      - qdrant_storage:/qdrant/storage
+
+  # 2. Service Backend 
+  api:
+    build:
+      context: ..      
+      dockerfile: Dockerfile
+    container_name: rag-api
+    ports:
+      - "8000:7860"     # Mapping port laptop 8000 -> container 7860
+    env_file:
+      - ../.env         # Baca file .env dari root
+    environment:
+      # Override config agar connect ke container Qdrant di atas
+      - QDRANT_URL=http://qdrant:6333 
+      - QDRANT_API_KEY=
+    depends_on:
+      - qdrant          # Tunggu Qdrant nyala dulu baru API nyala
+
+volumes:
+  qdrant_storage:
