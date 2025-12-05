@@ -16,7 +16,7 @@ license: apache-2.0
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Production-green.svg)
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)
-![CI/CD](https://github.com/bestoismproduction-rag-blueprint/actions/workflows/ci.yml/badge.svg)
+![CI/CD](https://github.com/bestoism/production-rag-blueprint/actions/workflows/ci.yml/badge.svg)
 ![Qdrant](https://img.shields.io/badge/VectorDB-Qdrant-red.svg)
 
 ## 📖 Overview
@@ -118,8 +118,8 @@ graph TD
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/bestoism/rag-insight-pipeline.git
-cd rag-insight-pipeline
+git clone https://github.com/bestoism/production-rag-blueprint.git
+cd production-rag-blueprint
 ```
 
 ### 2. Set up Virtual Environment
@@ -140,7 +140,7 @@ pip install -r requirements.txt
 Create a `.env` file in the root directory (copy from `.env.example`):
 ```ini
 # Project Settings
-PROJECT_NAME="RAG Insight Pipeline"
+PROJECT_NAME="Production RAG Blueprint"
 API_V1_STR="/api/v1"
 
 # LLM Provider (Google Gemini)
